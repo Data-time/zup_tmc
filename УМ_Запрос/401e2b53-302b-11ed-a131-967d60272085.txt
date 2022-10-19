@@ -10,7 +10,7 @@
 	Запрос = Новый Запрос;
 	Запрос.Текст = ПолучитьЗначениеПеременной(Переменные, "ТекстЗапросаДРСотрудников");
 			
-	Запрос.УстановитьПараметр("ТекущаяДата", ТекущаяДата);
+	Запрос.УстановитьПараметр("ТекущаяДата", НачалоДня(ТекущаяДата));
 	
 	РезультатЗапроса = Запрос.Выполнить();
 	
@@ -40,6 +40,16 @@
 	
 	Если ДРСотрудников.Количество() > 0 Тогда
 		
+		Шапка = "";
+		Подвал = "";
+		Если ДРСотрудников.Количество() = 1 Тогда
+			Шапка = "день рождения у нашего коллеги";
+			Подвал = "нашего коллегу и желаем ему";
+		Иначе
+			Шапка = "дни рождения у следующих сотрудников";
+			Подвал = "наших коллег и желаем им";	
+		КонецЕсли;
+		
 		ТекстПисьма = "<html>
 			|<head>
 			|<meta http-equiv=Content-Type content=""text/html; charset=windows-1251"">
@@ -59,7 +69,7 @@
 			|	margin-right:0cm;
 			|	margin-bottom:10.0pt;
 			|	margin-left:0cm;
-			|	line-height:115%;
+			|	line-height:100%;
 			|	font-size:11.0pt;
 			|	font-family:""Calibri"",""sans-serif"";}
 			|p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
@@ -74,7 +84,7 @@
 			|	font-family:""Tahoma"",""sans-serif"";}
 			|.MsoPapDefault
 			|	{margin-bottom:10.0pt;
-			|	line-height:115%;}
+			|	line-height:100%;}
 			|@page WordSection1
 			|	{size:595.3pt 841.9pt;
 			|	margin:2.0cm 42.5pt 2.0cm 3.0cm;}
@@ -85,17 +95,17 @@
 			|</head>
 			|<body lang=RU>
 			|<div class=WordSection1>
-			|<p class=MsoNormal><span style=\u0027font-size:12.0pt;line-height:115%;font-family: serif;\u0027>Добрый день. Сегодня " + Формат(ТекущаяДата, "ДФ=dd.MM.yyyy") + "г. дни рождения у следующих сотрудников: </span></p>";
+			|<p class=MsoNormal><span style=\u0027font-size:12.0pt;margin-bottom:1;line-height:100%;font-family: Times New Roman;\u0027>Добрый день. Сегодня " + Формат(ТекущаяДата, "ДФ=dd.MM.yyyy") + "г. дни рождения у следующих сотрудников: </span></p>";
 		
 		Для Каждого Элемент Из ДРСотрудников Цикл
 									
-			ТекстПисьма = ТекстПисьма + "<p class=MsoNormal><span style=\u0027font-size:12.0pt;line-height:115%;font-family: serif;\u0027>" + Элемент.Сотрудник + " (" + Элемент.Организация + ", " 
+			ТекстПисьма = ТекстПисьма + "<p class=MsoNormal><span style=\u0027font-size:12.0pt;margin-bottom:1;line-height:100%;font-family: Times New Roman;\u0027>" + Элемент.Сотрудник + " (" + Элемент.Организация + ", " 
 				+ Элемент.Подразделение + ", " + Элемент.Должность + ").</span></p>";
 		КонецЦикла;
 		
-		ТекстПисьма = ТекстПисьма + "<p class=MsoNormal><span style=\u0027font-size:12.0pt;line-height:115%;font-family: serif;\u0027>Поздравляем наших коллег и желаем им всего самого наилучшего!</span></p>";
+		ТекстПисьма = ТекстПисьма + "<p class=MsoNormal><span style=\u0027font-size:12.0pt;margin-bottom:1;line-height:100%;font-family: Times New Roman;\u0027>Поздравляем наших коллег и желаем им всего самого наилучшего!</span></p>";
 				
-		ТекстПисьма = ТекстПисьма + "<p class=MsoNormal><span style=\u0027font-size:12.0pt;font-family: serif;line-height:115%\u0027>&nbsp;</span></p>";//+ Символы.ПС + Символы.ПС + "Поздравляем наших коллег и желаем им всего самого наилучшего!";
+		ТекстПисьма = ТекстПисьма + "<p class=MsoNormal><span style=\u0027font-size:12.0pt;margin-bottom:1;font-family: Times New Roman;line-height:100%\u0027>&nbsp;</span></p>";//+ Символы.ПС + Символы.ПС + "Поздравляем наших коллег и желаем им всего самого наилучшего!";
 		
 		ТекстПисьма = ТекстПисьма + Символы.ПС + Символы.ПС + "Это письмо сформировано автоматически. Пожалуйста, не отвечайте на него.";
 		
